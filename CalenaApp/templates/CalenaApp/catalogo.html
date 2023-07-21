@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>Catálogo</title>
+<meta name="description" content="description">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{% load static %}
+<!-- Favicon -->
+<link rel="shortcut icon" href="{% static 'CalenaApp/images/favicon.png' %}" />
+<!-- Plugins CSS -->
+<link rel="stylesheet" href="{% static 'CalenaApp/css/plugins.css' %}">
+<!-- Bootstap CSS -->
+<link rel="stylesheet" href="{% static 'CalenaApp/css/bootstrap.min.css' %}">
+<!-- Main Style CSS -->
+<link rel="stylesheet" href="{% static 'CalenaApp/css/style.css' %}">
+<link rel="stylesheet" href="{% static 'CalenaApp/css/responsive.css' %}">
+</head>
+<body class="template-index home11-grid">
+    <style>
+        .btnproductos{
+            text-transform: none;
+            font-size: 35px;
+            color: #EF502E;
+            font-weight:bold;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        .btnfilter {
+            background-color: transparent;
+            position: relative;
+            padding-right: 20px;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            border-bottom: 1px solid #15374C
+        }
+
+        .btnfilter .fas.fa-caret-down {
+            color: #EF502E;
+            position: absolute;
+            top: 50%;
+            right: 5px;
+            transform: translateY(-50%);
+        }
+        .btnfilter .category-label {
+            font-weight:bold;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 15px;
+            margin-right: 180px;
+        }
+
+        .multiselect-container {
+            position: relative;
+            display: inline-block;
+        }
+    
+        .multiselect-select {
+            position: relative;
+            display: inline-block;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: transparent;
+            cursor: pointer;
+        }
+    
+        .multiselect-dropdown {
+            position: absolute;
+            z-index: 1;
+            width: 100%;
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 4px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-top: none;
+            border-radius: 0 0 4px 4px;
+            display: none;
+        }
+    
+        .multiselect-option {
+            padding: 4px;
+            cursor: pointer;
+            font-family: 'Open Sans', sans-serif;
+        }
+    
+        .multiselect-option:hover {
+            background-color: #EF502E;
+            color: white;
+            font-family: 'Open Sans', sans-serif;
+        }
+    
+        .selected {
+            background-color: #EF502E;
+            color: white;
+        }
+        .btnfilter .marcas-label {
+            font-weight:bold;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 15px;
+            margin-right: 200px;
+        }
+    </style>
+    <div id="pre-loader">
+        <img src="{% static 'CalenaApp/images/loader2.gif' %}" alt="Loading..." />
+    </div>
+    <div class="pageWrapper">
+
+        <!-- Start navbar section -->
+        {% include 'CalenaApp/navbar.html' %}
+        <!-- Ends navbar section -->
+
+        <!--Body Content-->
+        <div id="page-content">
+            <!--Collection Banner-->
+            <div class="section" style="padding-top: 0px;">
+                <div class="hero hero--small hero__overlay bg-size">
+                    <img class="bg-img blur-up" src="{% static 'CalenaApp/images/image 5.png' %}" alt="" />
+                    <div class="hero__inner">
+                        <div class="container">
+                            <div class="wrap-text center text-small font-regular">       
+                                <h2 class="btnproductos" style="color: white;">Nuestros productos</h2>
+                                <div class="rte-setting mega-subtitle"  style="color: white;">Lorem impsum Lorem impsum Lorem impsum Lorem impsum</div>
+                                
+                                <div class="row justify-content-center">
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <div class="input-group d-flex justify-content-center"> <!-- Agregamos la clase d-flex y justify-content-center -->
+                                            <form action="{% url 'catalogo' %}" method="GET" style="width: 100%;" class="d-flex"> <!-- Agregamos style="width: 100%;" y la clase d-flex -->
+                                                <input type="text" class="form-control" name="buscar" id="buscar" placeholder="Buscar producto, código..." value="{{ request.GET.buscar }}" style="width: 100%;"> <!-- Agregamos style="width: 100%;" -->
+                                                <div class="input-group-append"> <!-- Agregamos el div con la clase input-group-append -->
+                                                    <button class="btn btn-primary" style="background-color: #15374C; border-top-right-radius: 20px; border-bottom-right-radius: 20px;" type="submit"><i class="fas fa-search"></i></button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <style>
+                                    .autocomplete-results {
+                                        max-height: 200px;
+                                        overflow-y: auto;
+                                        border: 1px solid #ccc;
+                                        background-color: #15374C;
+                                        padding: 5px;
+                                        margin-top: 5px;
+                                        display: none;
+                                        color: white;
+                                    }
+
+                                    .hiddenclas{
+                                        background-color: transparent;
+                                        border:none;
+                                    }
+                                
+                                    .autocomplete-item {
+                                        cursor: pointer;
+                                        padding: 5px;
+                                    }
+                                </style>
+                                
+                                <div id="autocomplete-results" class="autocomplete-results"></div>
+                                
+                                <script>
+                                    $(document).ready(function() {
+                                        var searchInput = $('#buscar');
+                                        var resultsContainer = $('#autocomplete-results');
+                                
+                                        resultsContainer.hide().addClass('hiddenclas');
+                                
+                                        searchInput.on('input', function() {
+                                            var query = $(this).val();
+                                            if (query.length > 0) {
+                                                $.ajax({
+                                                    url: '/autocomplete/',
+                                                    method: 'GET',
+                                                    data: { query: query },
+                                                    success: function(response) {
+                                                        resultsContainer.empty();
+                                                        if (response.length > 0) {
+                                                            resultsContainer.show().removeClass('hiddenclas');
+                                                            for (var i = 0; i < response.length; i++) {
+                                                                var resultItem;
+                                                                if (response[i].titulo && response[i].titulo.toLowerCase().includes(query.toLowerCase())) {
+                                                                    resultItem = $('<div class="autocomplete-item">' + response[i].titulo + '</div>');
+                                                                } else if (response[i].codigo && response[i].codigo.toLowerCase().includes(query.toLowerCase())) {
+                                                                    resultItem = $('<div class="autocomplete-item">' + response[i].codigo + '</div>');
+                                                                }
+                                                                resultItem.on('click', function() {
+                                                                    searchInput.val($(this).text());
+                                                                    resultsContainer.empty();
+                                                                    resultsContainer.hide().addClass('hiddenclas');
+                                                                });
+                                                                resultsContainer.append(resultItem);
+                                                            }
+                                                        } else {
+                                                            resultsContainer.hide().addClass('hiddenclas');
+                                                        }
+                                                    },
+                                                    error: function(xhr, status, error) {
+                                                        console.error(xhr.responseText);
+                                                    }
+                                                });
+                                            } else {
+                                                resultsContainer.hide().addClass('hiddenclas');
+                                            }
+                                        });
+                                
+                                        $(document).on('click', function(event) {
+                                            if (!$(event.target).closest('.autocomplete-item').length && !$(event.target).is('#buscar')) {
+                                                resultsContainer.empty();
+                                                resultsContainer.hide().addClass('hiddenclas');
+                                            }
+                                        });
+                                    });
+                                </script>      
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--End Collection Banner-->
+            
+            <div class="container">
+                <div class="row">
+                    
+                    <!--Sidebar-->
+                    <div class="col-12 col-sm-12 col-md-3 col-lg-3 sidebar filterbar">
+                        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
+                        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+                        <div class="closeFilter d-block d-md-none d-lg-none"><i class="icon icon anm anm-times-l"></i></div>
+                        <div class="row pt-4">
+                            <div class="col-md-12">
+                                <button class="btnfilter btn-block" onclick="toggleCategorias()"><span class="category-label">Categorías</span> <span class="fas fa-caret-down" ></span></button>
+                                <form action="{% url 'catalogo' %}" method="GET">
+                                    <ul class="pt-2" id="categorias" style="display: none; list-style-type: none;">
+                                        <div class="pb-3">
+                                            <button class="btn-block" style="background-color: #15374C; color: white; border-radius: 8px; margin-top: 5px; font-weight:bold;
+                                            font-family: 'Open Sans', sans-serif;" type="submit">Aplicar filtro</button>
+                                        </div>
+
+                                        {% if query %}
+                                                    <input type="hidden" name="buscar" value="{{ query }}">
+                                        {% endif %}
+                                        {% for marca_id in marcas_seleccionadas %}
+                                            <input type="hidden" name="marcas" value="{{ marca_id }}">
+                                        {% endfor %}
+                                        
+                                        {% for categoria in categorias %}
+                                            <li class="pb-1 pl-3"> 
+                                                <input type="checkbox" id="categoria{{ categoria.id_categoria }}" name="categorias" value="{{ categoria.id_categoria }}" style="font-family: 'Open Sans', sans-serif;" {% if categoria.id_categoria|stringformat:'s' in categorias_seleccionadas %} checked {% endif %}>
+                                                {{ categoria.nombre_categoria }}
+                                            </li>
+                                        {% endfor %}
+                                    </ul>                                
+                                </form>
+                            </div>
+                            <div class="col-md-12 pt-3">
+                                <button class="btnfilter btn-block" onclick="toggleMarcas()"><span class="marcas-label">Marcas</span> <span class="fas fa-caret-down" ></span></button>
+                                <div class="multiselect-container pt-3"  id="marcas" style="display: none;">
+                                    <div class="multiselect-select btn-block" onclick="toggleDropdown()" id="selectedOptions">Selecciona tus marcas</div>
+                                    <form method="GET" action="{% url 'catalogo' %}">                                
+                                        <div class="multiselect-dropdown" id="dropdown">
+                                            <button class="btn-block" style="background-color: #15374C; color: white; border-radius: 8px; margin-top: 5px; font-weight:bold;
+                                            font-family: 'Open Sans', sans-serif;" style="margin-top: 10px;" type="submit">Aplicar filtro</button>
+                                            {% for categoria_id in categorias_seleccionadas %}
+                                                <input type="hidden" name="categorias" value="{{ categoria_id }}">
+                                            {% endfor %}
+                                            {% if query %}
+                                                <input type="hidden" name="buscar" value="{{ query }}">
+                                            {% endif %}
+                                            {% for marca in marcas %}
+                                            <div class="multiselect-option" onclick="toggleOption(this)">
+                                                <input type="checkbox" name="marcas" id="marcas{{ marcas.id_marca }}" value="{{ marca.id_marca }}" {% if marca.id_marca|stringformat:'s' in marcas_seleccionadas %}checked{% endif %}>
+                                                {{ marca.nombre_marca }}
+                                                
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--End Sidebar-->
+                    <!--Main Content-->
+                    <div class="col-12 col-sm-12 col-md-9 col-lg-9 main-col">
+                        <hr>
+                        <div class="productList">
+                            <!--Toolbar-->
+                            <button type="button" class="btn btn-filter d-block d-md-none d-lg-none"> Product Filters</button>
+                            <!--End Toolbar-->
+                            <div class="grid-products grid--view-items">
+                                <div class="row">
+                                    {% for producto in page_obj %}
+                                    <div class="col-6 col-sm-6 col-md-4 col-lg-4 item">
+                                        <div class="col-12 item">
+                                            <!-- start product image -->
+                                            <div class="product-image">
+                                                <!-- start product image -->
+                                                <a >
+                                                    <!-- image -->
+                                                    <img class="primary blur-up lazyload" data-src="{% static 'CalenaApp/images/Group 3.png' %}" src="{% static 'CalenaApp/images/Group 3.png' %}" alt="image" title="product">
+                                                    <!-- End image -->
+                                                    <!-- Hover image -->
+                                                    <img class="hover blur-up lazyload" data-src="{% static 'CalenaApp/images/Group 4.png' %}" src="{% static 'CalenaApp/images/Group 4.png' %}" alt="image" title="product">
+                                                    <!-- End hover image -->
+                                                    <!-- product label -->
+                                                    <div class="product-labels rectangular"><span class="lbl on-sale">Comprar ahora</span></div>
+                                                    <!-- End product label -->
+                                                </a>
+                                                <!-- end product image -->
+                
+                                                <!-- Start product button -->
+                                                <a href="#" title="Agregar a favoritos" class="variants add">
+                                                    <button class="btn btn-addto-cart" type="button" tabindex="0" onclick="agregarFavorito('{{ producto.id_producto }}')">Agregar al carrito</button>
+                                                  </a>
+                                                  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+                                                  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+                                
+                                                  <script>
+                                                    function agregarFavorito(idProducto) {
+                                                      $.ajax({
+                                                        url: "{% url 'agregar_favorito' 0 %}".replace('0', idProducto),
+                                                        type: 'GET',
+                                                        success: function(response) {
+                                                          Toastify({
+                                                            text: "Producto agregado al carrito",
+                                                            duration: 1500, 
+                                                            close: true, 
+                                                            gravity: "top", 
+                                                            position: "right", 
+                                                            backgroundColor: "green",
+                                                            borderRadius: "10px",
+                                                          }).showToast();
+                                                        },
+                                                        error: function(xhr, status, error) {
+                                                          console.error(error);
+                                                        }
+                                                      });
+                                                    }
+                                                  </script>
+                                                <div class="button-set">
+                                                    <a href="{% url 'producto' producto.id_producto %}" title="Quick View" class="quick-view-popup quick-view" >
+                                                        <i class="icon anm anm-search-plus-r"></i>
+                                                    </a>
+                                                </div>
+                                                <!-- end product button -->
+                                            </div>
+                                            <!-- end product image -->
+                                            <!--start product details -->
+                                            <div class="product-details text-center">
+                                                <!-- product name -->
+                                                <div class="product-name">
+                                                    <a style="font-family: 'Open Sans', sans-serif; color: black; font-weight: bold;">{{ producto.codigo_producto }}</a>
+                                                </div>
+                                                <!-- End product name -->
+                                                
+                                            </div>
+                                            <!-- End product details -->
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="clear">
+                        <div class="pagination">
+                            <ul>
+                                {% if page_obj.has_previous %}
+                                <li><a href="?page=1&{{ query_params }}">First</a></li>
+                                <li><a href="?page={{ page_obj.previous_page_number }}&{{ query_params }}"><i class="bi bi-chevron-left"></i></a></li>
+                                {% endif %}
+                        
+                                {% for num in page_obj.paginator.page_range %}
+                                {% if page_obj.number == num %}
+                                <li class="active"><a href="#">{{ num }}</a></li>
+                                {% else %}
+                                    {% if num >= page_obj.number|add:"-5" and num <= page_obj.number|add:"5" %}
+                                        <li><a href="?page={{ num }}&{{ query_params }}">{{ num }}</a></li>
+                                    {% endif %}
+                                {% endif %}
+                                {% endfor %}
+                        
+                                {% if page_obj.has_next %}
+                                <li><a href="?page={{ page_obj.next_page_number }}&{{ query_params }}"><i class="bi bi-chevron-right"></i></a></li>
+                                <li><a href="?page={{ page_obj.paginator.num_pages }}&{{ query_params }}">Last</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                        
+                        
+                    </div>
+                    <!--End Main Content-->
+                </div>
+            </div>
+        </div>
+
+        <!-- Start navbar section -->
+        {% include 'CalenaApp/footer.html' %}
+        <!-- Ends navbar section -->
+        
+        <!--Scoll Top-->
+        <span id="site-scroll"><i class="icon anm anm-angle-up-r"></i></span>
+        <!--End Scoll Top-->
+        
+        <!-- Including Jquery -->
+        <script src="{% static 'CalenaApp/js/vendor/jquery-3.3.1.min.js' %}"></script>
+        <script src="{% static 'CalenaApp/js/vendor/modernizr-3.6.0.min.js' %}"></script>
+        <script src="{% static 'CalenaApp/js/vendor/query.cookie.js' %}"></script>
+        <script src="{% static 'CalenaApp/js/vendor/wow.min.js' %}"></script>
+        <!-- Including Javascript -->
+        <script src="{% static 'CalenaApp/js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'CalenaApp/js/plugins.js' %}"></script>
+        <script src="{% static 'CalenaApp/js/popper.min.js' %}"></script>
+        <script src="{% static 'CalenaApp/js/lazysizes.js' %}"></script>
+        <script src="{% static 'CalenaApp/js/main.js' %}"></script>
+
+        <script>
+            function toggleOption(option) {
+                const checkbox = option.querySelector('input[type="checkbox"]');
+                checkbox.checked = !checkbox.checked;
+            }
+
+            function toggleDropdown() {
+                var dropdown = document.getElementById('dropdown');
+                if (dropdown.style.display === 'none') {
+                    dropdown.style.display = 'block';
+                } else {
+                    dropdown.style.display = 'none';
+                }
+            }
+            
+            function updateSelectedOptions() {
+                var selectedOptions = document.getElementsByClassName('selected');
+                var selectedOptionsText = '';
+                for (var i = 0; i < selectedOptions.length; i++) {
+                    selectedOptionsText += selectedOptions[i].textContent + ', ';
+                }
+                if (selectedOptionsText !== '') {
+                    selectedOptionsText = selectedOptionsText.slice(0, -2);
+                } else {
+                    selectedOptionsText = 'Seleccionar opciones';
+                }
+                document.getElementById('selectedOptions').textContent = selectedOptionsText;
+            }
+
+            var categoriasVisible = false;
+            var marcasVisible = false;
+
+            function toggleCategorias() {
+                var categorias = document.getElementById("categorias");
+                categoriasVisible = !categoriasVisible;
+                categorias.style.display = categoriasVisible ? "block" : "none";
+            }
+
+            function toggleMarcas() {
+                var marcas = document.getElementById("marcas");
+                marcasVisible = !marcasVisible;
+                marcas.style.display = marcasVisible ? "block" : "none";
+            }
+        </script>
+    </div>
+</body>
+
+</html>

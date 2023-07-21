@@ -1,0 +1,1 @@
+web gunicorn WebsiteCalena.wsgi:application --log-file -

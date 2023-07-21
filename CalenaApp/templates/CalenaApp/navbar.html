@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>Navbar</title>
+<meta name="description" content="description">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{% load static %}
+<!-- Favicon -->
+<link rel="shortcut icon" href="{% static 'CalenaApp/images/logo.png' %}" />
+<!-- Plugins CSS -->
+<link rel="stylesheet" href="{% static 'CalenaApp/css/plugins.css' %}">
+<!-- Bootstap CSS -->
+<link rel="stylesheet" href="{% static 'CalenaApp/css/bootstrap.min.css' %}">
+<!-- Main Style CSS -->
+<link rel="stylesheet" href="{% static 'CalenaApp/css/style.css' %}">
+<link rel="stylesheet" href="{% static 'CalenaApp/css/responsive.css' %}">
+</head>
+<body class="template-index home11-grid">
+<div class="pageWrapper">
+    {% block content %} 
+    <!--Top Header-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"/>
+    <div class="top-header">
+        <div class="container-fluid">
+            <div class="row">
+            	<div class="col-10 col-sm-8 col-md-5 col-lg-4">
+                    <p class="phone-no" style="text-transform:none;"><i class="bi bi-envelope-fill pr-2" style="font-size: 15px;"></i>example@gmail.com</p>
+                    <p class="phone-no"><i class="anm anm-phone-s pr-2" style="padding-left: 30px;" style="font-size: 15px;"></i> 55-5555-5555</p>
+                </div>
+                <div class="col-sm-4 col-md-4 col-lg-4 d-none d-lg-none d-md-block d-lg-block">
+                	<div class="text-center"><p class="top-header_middle-text"></p></div>
+                </div>
+                <div class="col-2 col-sm-4 col-md-3 col-lg-4 text-right">
+                    <div class="row">
+                        <div class="col-6 col-sm-10">
+                            <span class="user-menu d-block d-lg-none"><i class="fab fa-instagram" style="font-size: 15px;" aria-hidden="true"></i></span>
+                        </div>
+                        <div class="col-6 col-sm-2">
+                            <span class="user-menu d-block d-lg-none"><i class="fab fa-facebook" style="font-size: 15px;" aria-hidden="true"></i></span>
+                        </div>
+                    </div>
+                    <p class="phone-no customer-links list-inline" style="text-transform:none;"><i class="fab fa-instagram" style="font-size: 15px; padding-right: 20px;"></i></p>
+                    <p class="phone-no customer-links list-inline"><i class="fab fa-facebook" style="font-size: 15px;"></i></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End Top Header-->
+    <!--Header-->
+    <div class="header-wrap animated d-flex border-bottom" style="background-color: #15374C;">
+    	<div class="container-fluid">        
+            <div class="row align-items-center">
+            	<!--Desktop Logo-->
+                <div class="logo col-md-2 col-lg-2 d-none d-lg-block" style="padding-left: 0px;">
+                    <a href="index.html">
+                    	<img style="max-width: 26%;" src="{% static 'CalenaApp/images/logo.png' %}" alt="Calena" title="Calena" />
+                    </a>
+                </div>
+                <!--End Desktop Logo-->
+                <div class="col-2 col-sm-3 col-md-3 col-lg-8">
+                	<div class="d-block d-lg-none">
+                        <style>
+                            .togglerbutton{
+                                border: none;
+                            }
+                        </style>
+                        <button class="togglerbutton" style="padding-left: 0px;" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <i style="font-size: 25px;" class="anm anm-bars-r text-white togglerbutton"></i>
+                        </button>
+                    </div>
+                	<!--Desktop Menu-->
+                	<nav class="grid__item" id="AccessibleNav"><!-- for mobile -->
+                        <ul id="siteNav" class="site-nav medium center hidearrow">
+                            <li class="lvl1 parent megamenu mobilenav"><a href="{% url 'home' %}">Home</a>
+                            </li>
+                            <li class="lvl1 parent megamenu mobilenav"><a href="{% url 'nosotros' %}">Nosotros</a>
+                            </li>
+                            <li class="lvl1 parent megamenu mobilenav"><a href="{% url 'catalogo' %}">Catálogo</a>
+                            </li>
+                            <li class="lvl1 parent megamenu mobilenav"><a href="{% url 'proveedores' %}">Proveedores</i></a>
+                            </li>
+                            <li class="lvl1 parent megamenu mobilenav"><a href="{% url 'contacto' %}">Contacto</i></a>
+                            </li>                      
+                        </ul>
+                    </nav>
+                    <!--End Desktop Menu-->
+                </div>
+                <!--Mobile Logo-->
+                <div class="col-6 col-sm-6 col-md-6 col-lg-2 d-block d-lg-none mobile-logo">
+                	<div class="logo">
+                        <a href="index.html"  class="padding-right-sm">
+                            <style>
+                                @media (max-width: 576px) {
+                                    .padding-right-sm {
+                                        padding-left: 80px /* Ajusta el tamaño del padding según tus necesidades */
+                                    }
+                                }
+                            </style>
+                            <img style="max-width: 25%" class="sizelogo" src="{% static 'CalenaApp/images/logo.png' %}" alt="Calena" title="Calena" />
+                        </a>
+                    </div>
+                </div>
+                <!--Mobile Logo-->
+                <div class="col-4 col-sm-3 col-md-3 col-lg-2">
+                	<div class="site-cart">
+                    	<a href="{% url 'carrito' %}" class="">
+                        	<span style="font-size: 22px;" class="bi bi-cart-fill text-white fa-lg"></span>
+                            <span id="CartCount" style="margin-bottom: 12px;" class="site-header__cart-count" data-cart-render="item_count">{{ favoritos|length }}</span>
+                        </a>
+                    </div>
+                </div>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+                <div class="collapse navbar-collapse d-lg-none" id="navbarNav">
+                    <ul class="navbar-nav align-items-center">
+                        <style>
+                           .mobilenav {
+                            font-weight: bold;
+                            font-family: "Open Sans", sans-serif;
+                            }
+                        </style>
+                    <li class="nav-item">
+                        <a class="nav-link text-white mobilenav" href="{% url 'home' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white mobilenav" href="{% url 'nosotros' %}">Nosotros</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white mobilenav" href="{% url 'catalogo' %}">Catálogo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white mobilenav" href="{% url 'proveedores' %}">Proveedores</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white mobilenav" href="{% url 'contacto' %}">Contacto</a>
+                    </li>
+                    </ul>
+                </div>
+        	</div>
+        </div>
+    </div>
+    <!--End Header-->
+    
+    <!--Mobile Menu-->
+    
+	<!--End Mobile Menu-->
+    
+    <!-- Including Jquery -->
+    <script src="{% static 'CalenaApp/js/vendor/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'CalenaApp/js/vendor/modernizr-3.6.0.min.js' %}"></script>
+    <script src="{% static 'CalenaApp/js/vendor/query.cookie.js' %}"></script>
+    <script src="{% static 'CalenaApp/js/vendor/wow.min.js' %}"></script>
+    <!-- Including Javascript -->
+    <script src="{% static 'CalenaApp/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'CalenaApp/js/plugins.js' %}"></script>
+    <script src="{% static 'CalenaApp/js/popper.min.js' %}"></script>
+    <script src="{% static 'CalenaApp/js/lazysizes.js' %}"></script>
+    <script src="{% static 'CalenaApp/js/main.js' %}"></script>
+    {% endblock %}
+</div>
+
+</body>
+</html>
