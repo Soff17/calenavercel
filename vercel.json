@@ -5,7 +5,7 @@
       {
         "src": "WebsiteCalena/wsgi.py",
         "use": "@vercel/python",
-        "config": {"maxLambdSize": "15mb", "runtime": "python3.9"}
+        "config": {"maxLambdSize": "15mb", "runtime": "Python 3.11.4"}
       },
       {
         "src": "build_files.sh",
