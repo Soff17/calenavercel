@@ -118,10 +118,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/CalenaApp'
-STATICFILES_DIRS = [BASE_DIR / "static"]
-
-# Configure the directory where static files will be collected for deployment
-STATIC_ROOT = BASE_DIR / "staticfiles_build"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
