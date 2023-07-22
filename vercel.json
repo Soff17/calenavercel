@@ -1,28 +1,11 @@
 {
-  "version": 2,
-
     "builds": [
       {
         "src": "WebsiteCalena/wsgi.py",
-        "use": "@vercel/python",
-        "config": {"maxLambdSize": "15mb", "runtime": "Python 3.11.4"}
-      },
-      {
-        "src": "build_files.sh",
-        "use": "@vercel/static-build",
-        "config": {"disDir": "staticfiels_build"}
-      },
-      {
-        "scripts": {
-          "build": "[my-framework] build --output public"
-        }
+        "use": "@vercel/python"
       }
     ],
     "routes": [
-      {
-        "src": "/static/(.*)",
-        "dest": "/static/$1"
-      },
       {
         "src": "/(.*)",
         "dest": "WebsiteCalena/wsgi.py"
